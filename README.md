@@ -1,5 +1,10 @@
 # airodump
 
+## Dependency
+```sh
+sudo apt install tshark
+```
+
 ## Installation
 ```sh
 pip3 install pyshark

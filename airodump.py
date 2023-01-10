@@ -6,8 +6,6 @@ import re
 beacon_list = {}
 p = re.compile('SSID:.*')
 
-BEACON_FORMAT = '{bssid}    {channel}    {signal}     {ssid}'
-
 print('BSSID               CH    PWR     BEACONS      ESSID')
 
 def return_print(*message):

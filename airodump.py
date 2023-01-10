@@ -6,8 +6,6 @@ import re
 beacon_list = {}
 p = re.compile('SSID:.*')
 
-print('BSSID               CH    PWR     BEACONS      ESSID')
-
 def return_print(*message):
     io = StringIO()
     print(*message, file=io, end="")
@@ -60,8 +58,9 @@ if __name__=='__main__':
     args = sys.argv
 
     if len(args) != 2:
-        print("[*] Please Provide Interface Name :\n :~# python {} [Interface_name]".format(args[0]))
+        print("[*] How to use?\n# python3 {} [Interface_name]".format(args[0]))
         sys.exit(0)
 
+    print('BSSID               CH    PWR     BEACONS      ESSID')
     interface = args[1]
     main(interface=interface)

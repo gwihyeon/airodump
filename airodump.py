@@ -6,6 +6,8 @@ import re
 beacon_list = {}
 p = re.compile('SSID:.*')
 
+BEACON_FORMAT = '{bssid}    {channel}    {signal}     {ssid}'
+
 print('BSSID               CH    PWR     BEACONS      ESSID')
 
 def return_print(*message):
@@ -13,40 +15,40 @@ def return_print(*message):
     print(*message, file=io, end="")
     return io.getvalue()
 
-def display_info(data, beacon):
+def display(data, beacon):
     line = 0
-    for a,b in data.items():
-        print('%-19s %-5s %-9s %-10s %-20s' %(b['bssid'], b['channel'], b['signal'], beacon[a], b['ssid']))
+    for key, value in data.items():
+        print('%-19s %-5s %-9s %-10s %-20s' %(value['bssid'], value['channel'], value['signal'], beacon[key], value['ssid']))
         line += 1
 
     sys.stdout.write("\033[{}A".format(line))
     
     return
 
-def ap_info_extractor(packet):
-    ref = {}
-    ref['bssid'] = packet.wlan.bssid
-    ref['channel'] = packet.wlan_radio.channel
-    ref['signal'] = packet.wlan_radio.signal_dbm
+def ap_info(packet):
+    data = {}
+    data['bssid'] = packet.wlan.bssid
+    data['channel'] = packet.wlan_radio.channel
+    data['signal'] = packet.wlan_radio.signal_dbm
 
     text = return_print(packet)
     m = p.findall(text)
     ssid = m[0][7:-1]
-    ref['ssid'] = ssid
+    data['ssid'] = ssid
 
-    return ref
+    return data
 
 def wlan_sniffer(capture):
     bssid_list = {}
 
-    for num, packets in enumerate(capture):
-        data = ap_info_extractor(packets)
+    for num, packet in enumerate(capture):
+        data = ap_info(packet)
         if(data['bssid'] in beacon_list):
            beacon_list[data['bssid']] += 1
         else:
            beacon_list[data['bssid']] = 1
         bssid_list[data['bssid']] = data
-        display_info(bssid_list, beacon_list)
+        display(bssid_list, beacon_list)
     
     return
 

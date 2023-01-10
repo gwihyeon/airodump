@@ -1,11 +1,6 @@
 # airodump
 Tested in Kali Linux 2022.4  
 
-## Dependency
-```sh
-sudo apt install tshark
-```
-
 ## Installation
 ```sh
 pip3 install pyshark

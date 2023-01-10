@@ -1,4 +1,5 @@
 # airodump
+Tested in Kalinux 2022.4  
 
 ## Dependency
 ```sh
